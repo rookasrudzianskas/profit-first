@@ -13,6 +13,7 @@ function NewAllocationScreen({ accounts }: { accounts: Account[] }) {
       allocationsCollection.create((newAllocation) => {
         newAllocation.income = Number.parseFloat(income);
       });
+      // for each account save a account allocation
     });
     setIncome('');
     router.back();
