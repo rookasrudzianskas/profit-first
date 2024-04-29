@@ -1,53 +1,64 @@
 import { View, Text, StyleSheet } from 'react-native';
-import Account from '../model/Account';
+import Allocation from '../model/Allocation';
 import { withObservables } from '@nozbe/watermelondb/react';
-import { AntDesign } from '@expo/vector-icons';
-import database from '../db';
+import AccountAllocation from '../model/AccountAllocation';
+import AccountAllocationItem from './AccountAllocationItem';
 
-type AccountListItem = {
-  account: Account;
+type AllocationListItem = {
+  allocation: Allocation;
+  accountAllocations: AccountAllocation[];
 };
 
-function AccountListItem({ account }: AccountListItem) {
-  const onDelete = async () => {
-    await database.write(async () => {
-      await account.markAsDeleted();
-    });
-  };
-
+const AllocationListItem = ({
+  allocation,
+  accountAllocations,
+}: AllocationListItem) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>{account.name}</Text>
-      <Text style={styles.percentage}>{account.cap}%</Text>
-      <Text style={styles.percentage}>{account.tap}%</Text>
-      <AntDesign name="delete" size={18} color="gray" onPress={onDelete} />
+      <View style={styles.header}>
+        <Text style={styles.date}>
+          {allocation.createdAt.toLocaleDateString()}
+        </Text>
+        <Text style={styles.income}>${allocation.income}</Text>
+      </View>
+
+      <View style={{ gap: 5, paddingVertical: 5 }}>
+        {accountAllocations.map((item) => (
+          <AccountAllocationItem accountAllocation={item} />
+        ))}
+      </View>
     </View>
   );
-}
+};
 
 const enhance = withObservables(
-  ['account'],
-  ({ account }: AccountListItem) => ({
-    account,
+  ['allocation'],
+  ({ allocation }: { allocation: Allocation }) => ({
+    allocation,
+    // @ts-ignore
+    accountAllocations: allocation.accountAllocations,
   })
 );
 
-export default enhance(AccountListItem);
+export default enhance(AllocationListItem);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    padding: 10,
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderRadius: 5,
+    backgroundColor: 'gainsboro',
+    padding: 10,
   },
-  name: {
+  income: {
+    fontSize: 24,
     fontWeight: 'bold',
-    fontSize: 16,
-    flex: 1,
+    color: 'green',
   },
-  percentage: {
-    flex: 1,
+  date: {
+
   },
 });
