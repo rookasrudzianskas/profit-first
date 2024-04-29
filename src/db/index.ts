@@ -34,3 +34,4 @@ export default database;
 
 export const accountsCollection = database.get<Account>('accounts');
 export const allocationsCollection = database.get<Allocation>('allocations');
+export const accountAllocationCollection = database.get<AccountAllocation>('account_allocations');
