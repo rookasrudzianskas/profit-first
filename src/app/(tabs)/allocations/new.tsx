@@ -1,9 +1,9 @@
 import { Stack, router } from 'expo-router';
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import database, {accountAllocationCollection, accountsCollection, allocationsCollection} from '../../db';
+import database, {accountAllocationCollection, accountsCollection, allocationsCollection} from '../../../db';
 import { withObservables } from '@nozbe/watermelondb/react';
-import Account from '../../model/Account';
+import Account from '../../../model/Account';
 
 function NewAllocationScreen({ accounts }: { accounts: Account[] }) {
   const [income, setIncome] = useState('0');

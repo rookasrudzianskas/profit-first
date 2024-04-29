@@ -1,8 +1,12 @@
-import { Redirect } from 'expo-router';
-import { View, Text } from 'react-native';
+import { Redirect, Slot } from 'expo-router';
+import AuthProvider, { useAuth } from '../providers/AuthProvider';
 
-const HomeScreen = () => {
-  return <Redirect href={'/allocations'} />;
+const RootLayout = () => {
+  return (
+    <AuthProvider>
+      <Slot />
+    </AuthProvider>
+  );
 };
 
-export default HomeScreen;
+export default RootLayout;
